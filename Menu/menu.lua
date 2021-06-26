@@ -1,18 +1,20 @@
-local command = "menu";
-local GMonly = false;  --.menu only opens for GM
+local command = "menu"
+
+local GMonly = false  --.menu only opens for GM
 --If GMonly is true then the options below don't matter
-local GMonlymail = false; -- if true Only GM can Open Mail
-local GMonlybank = false; -- if true Only GM can Open Bank
-local GMonlyah = false;   -- if true Only GM can Open Auction
-local GMonlyfly = false;  -- if true Only GM can learn to Fly on Azeroth
+local GMonlymail = false -- if true Only GM can Open Mail
+local GMonlybank = false -- if true Only GM can Open Bank
+local GMonlyah = false  -- if true Only GM can Open Auction
+local GMonlyfly = false  -- if true Only GM can learn to Fly on Azeroth
 --Teleports to starter areas
-local TeleGMonly = false;  -- if true Only GM can access teleports to starting areas
+local TeleGMonly = false  -- if true Only GM can access teleports to starting areas
 --Heirloom
 local OGMCU = false --Only GM can use
+local hirenpcbots = false -- True is for when server uses NPC_Bots from trickerer https://github.com/trickerer/Trinity-Bots
 
 
 local T = {
---  [classId] = {item1, item2, item3m, ...},
+--  [classId] = {item1, item2, item3m, ...}
 	[0] = {},
     [1] = {42943, 48718, 42991, 48716, 42949, 48685, 50255, 51980, 51978, 51982, 51981}, -- Warrior
     [2] = {44100, 48685, 44092, 42992, 50255, 48716, 51980, 51978, 51982, 51981}, -- Paladin
@@ -25,19 +27,34 @@ local T = {
     [9] = {42947, 48691, 44107, 42992, 50255, 51973, 51968, 51967, 51972}, -- Warlock
     [11] = {42947, 48718, 42952, 42991, 44107, 48691, 48689, 50255, 51965, 51964, 51963, 51962}, -- Druid
 
-};
+}
 
 
 local function SKULY(eventid, delay, repeats, player)
+
 if not GMonly then
     player:SendBroadcastMessage("|cff3399FF You can acces player menu by typing |cff00cc00 .menu |cff3399FF in chat.")
 	end
 end
 
-local function OnLogin(event, player)
-	player:RegisterEvent(SKULY, 10000, 1, player)
+local firstlogin = false
+
+local function OnFirstLogin(event, player)
+	if event == 30 then
+	firstlogin = true
+	end
 	
+	player:RegisterEvent(SKULY, 10000, 1, player)
 end
+
+local function OnLogin(event, player)
+	if not firstlogin then
+	player:RegisterEvent(SKULY, 10000, 1, player)
+	else
+	firstlogin = false
+	end
+end
+
 
 local function getPlayerCharacterGUID(player)
     query = CharDBQuery(string.format("SELECT guid FROM characters WHERE name='%s'", player:GetName()))
@@ -53,7 +70,7 @@ local function getPlayerCharacterGUID(player)
 
 local function Hello(event, player)
 local query = WorldDBQuery(string.format("SELECT * FROM world.heirloom_list WHERE CharID=%i", getPlayerCharacterGUID(player)))
-player:GossipClearMenu();
+player:GossipClearMenu()
 	local mingmrank = 3
 		
 	
@@ -83,7 +100,12 @@ player:GossipClearMenu();
 	else
 	player:GossipMenuAddItem(0, "Heirloom", 0, 49)
 	end
-
+	
+	if hirenpcbots then
+	player:GossipMenuAddItem(0, "Spawn Bot Hire NPC (30sec) - 5 Gold", 0, 98)
+	else
+	end
+	
 	
 	player:GossipMenuAddItem(0, "[Exit Menu]", 0, 99)
 	player:GossipSendMenu(1, player, 100)
@@ -94,7 +116,7 @@ end
 
 
 local function OnSelect(event, player, _, sender, intid, code)
-player:GossipClearMenu();
+player:GossipClearMenu()
 		local level = player:GetLevel()
 		local currentgold = player:GetCoinage()
 		local mingmrank = 3
@@ -271,9 +293,32 @@ if(intid== 49) then
 	end
 	
 	if player:HasSpell(71342) then
-	player:RemoveItem(50250, 1);
+	player:RemoveItem(50250, 1)
 	end
 
+	
+	if(intid== 98) then
+	local x = player:GetX()
+	local y = player:GetY()
+	local z = player:GetZ()
+	local o = player:GetO()
+	
+	
+	
+	if (currentgold >= gold*5) then
+	player:ModifyMoney( -gold*5 )
+	player:SpawnCreature( 70000, x+1, y+1, z+0.5, o-3.5, 1, 30 )
+	else
+	player:SendAreaTriggerMessage("You don't have enough gold!")
+	end
+	player:GossipComplete()
+	end
+	
+	
+	
+	
+	
+	
 
 end
 
@@ -293,7 +338,7 @@ local function PlrMenu(event, player, message, Type, lang)
 end
 
 
-
+RegisterPlayerEvent(30, OnFirstLogin)
 RegisterPlayerEvent(3, OnLogin)
 RegisterPlayerEvent(42, PlrMenu)
 RegisterPlayerGossipEvent(100, 2, OnSelect)

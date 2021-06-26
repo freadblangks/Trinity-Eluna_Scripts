@@ -1,8 +1,9 @@
 Some Eluna scripts I've been working on.
 
-Menu has a bunch of options. And Menu _NPC_BOTS has an added option to spawn the NPC that lets you hire Bots if server uses NPC_Bots from trickerer https://github.com/trickerer/Trinity-Bots
-Most options in the menu can be turned off for non-GM players by changing variables from false to true. but if GMonly = true then the whole menu becoems only accessable by GM's of rank 3.
-There is a Heirloom option that gives the player Heirloom + 4 Glacier bags + gear from that comes from rdf satchel so players should feel over powered during ther lower levels. But tthese options can be manually turn off/hidden.
+Menu has a bunch of options. If server uses NPC_Bots from trickerer https://github.com/trickerer/Trinity-BotsSpawn the "Spawn Bot Hire NPC" option spawns the NPC that you can hire Bots from.
+
+Most options in the menu can be turned off for non-GM players by changing variables from false to true.
+There is a Heirloom option that gives the player Heirloom + 4 Glacier bags + gear that comes from rdf satchel so players should feel a lot more powerful during there lower levels. But these options can be manually turned off/hidden.
 There is also a flying mount option for flying in Azeroth.
 
 T10_BIS is an npc that will give BIS gear that I found listed at https://gist.github.com/brandonsturgeon/756ed49463ad8f659a1b760c1a20d441, it also levels the player to 80 and gives all spells.
