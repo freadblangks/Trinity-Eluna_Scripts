@@ -29,27 +29,27 @@ if not inDungeon then
 	local spawnlevel = plevel+1
 	
 	if number == 4 then
-	spawnedCreature = killed:SpawnCreature( creatureentry, x+1, y+1, z+0.5, o-3.5, 7 )
+	spawnedCreature = killed:SpawnCreature( creatureentry, x+1, y+1, z+0.5, o-3.5, 1, 60  )
 	spawnedCreature:SetLevel( spawnlevel )
 	end
 	if number == 7 then
-	spawnedCreature = killed:SpawnCreature( creatureentry, x+1, y+1, z+0.5, o-3.5, 7 )
+	spawnedCreature = killed:SpawnCreature( creatureentry, x+1, y+1, z+0.5, o-3.5, 1, 60  )
 	spawnedCreature:SetLevel( spawnlevel )
-	spawnedCreature = killed:SpawnCreature( creatureentry, x+2, y+2, z+0.5, o-3.5, 7 )
+	spawnedCreature = killed:SpawnCreature( creatureentry, x+2, y+2, z+0.5, o-3.5, 1, 60  )
 	spawnedCreature:SetLevel( spawnlevel )
 
 	end
 	if number == 9 then
-	spawnedCreature = killed:SpawnCreature( creatureentry, x+1, y+1, z+0.5, o-3.5, 7 )
+	spawnedCreature = killed:SpawnCreature( creatureentry, x+1, y+1, z+0.5, o-3.5, 1, 60  )
 	spawnedCreature:SetLevel( spawnlevel )
-	spawnedCreature = killed:SpawnCreature( creatureentry, x+2, y+2, z+0.5, o-3.5, 7 )
+	spawnedCreature = killed:SpawnCreature( creatureentry, x+2, y+2, z+0.5, o-3.5, 1, 60  )
 	spawnedCreature:SetLevel( spawnlevel )
-	spawnedCreature = killed:SpawnCreature( creatureentry, x+3, y+3, z+0.5, o-3.5, 7 )
+	spawnedCreature = killed:SpawnCreature( creatureentry, x+3, y+3, z+0.5, o-3.5, 1, 60  )
 	spawnedCreature:SetLevel( spawnlevel )
 	end
 	
 
-if number == 2 then
+if number == 2 or number == 15 or number == 14 or number == 1 then
 killer:ModifyMoney( gold*1 )
 killer:SendBroadcastMessage("|cff5af304You recieved an extra 1 gold from killing " ..creaturename.."|r")
 end
@@ -98,17 +98,22 @@ if number == 3 then
 	end
 	if plevel >= 70 and plevel <= 79 then
 	bonus7 = xp7*plevel
-	killer:GiveXP( bonus7 )
+	killer:GiveXP( bonus1, 60  )
 	killer:SendBroadcastMessage("|cff5af304You recieved an extra " ..bonus7..  "xp from killing " ..creaturename.."|r")
 	end
 	
 end
 
 if number == 12 then
-killer:ModifyMoney( -gold*10 )
-killer:SendBroadcastMessage("|cff5af304You lost 10 gold.|r")
+killer:ModifyMoney( -gold*5 )
+killer:SendBroadcastMessage("|cff5af304You lost 5 gold.|r")
 end
 
+
+if number == 17 then
+spawnedCreature = killed:SpawnCreature( 14273, x+3, y+3, z+0.5, o-3.5, 1, 60  )
+spawnedCreature:SetLevel( plevel )
+end
 
 
 end
