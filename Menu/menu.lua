@@ -105,6 +105,8 @@ player:GossipClearMenu()
 	player:GossipMenuAddItem(0, "Spawn Bot Hire NPC (30sec) - 5 Gold", 0, 98)
 	else
 	end
+	player:GossipMenuAddItem(0, "Spawn vendor to sell your junk", 0, 67)
+	
 	
 	
 	player:GossipMenuAddItem(0, "[Exit Menu]", 0, 99)
@@ -117,6 +119,10 @@ end
 
 local function OnSelect(event, player, _, sender, intid, code)
 player:GossipClearMenu()
+		local x = player:GetX()
+		local y = player:GetY()
+		local z = player:GetZ()
+		local o = player:GetO()
 		local level = player:GetLevel()
 		local currentgold = player:GetCoinage()
 		local mingmrank = 3
@@ -297,14 +303,11 @@ if(intid== 49) then
 	end
 
 	
+	if(intid== 67) then
+	player:SpawnCreature( 2832, x+1, y+1, z+0.5, o-3.5, 1, 20 )
+	end
+	
 	if(intid== 98) then
-	local x = player:GetX()
-	local y = player:GetY()
-	local z = player:GetZ()
-	local o = player:GetO()
-	
-	
-	
 	if (currentgold >= gold*5) then
 	player:ModifyMoney( -gold*5 )
 	player:SpawnCreature( 70000, x+1, y+1, z+0.5, o-3.5, 1, 30 )
