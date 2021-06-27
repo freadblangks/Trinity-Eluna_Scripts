@@ -1,3 +1,4 @@
+local enabled = true --disable script
 local xp1 = 290 -- 1-19
 local xp2 = 395 -- 20-29
 local xp3 = 478 -- 30-39
@@ -17,7 +18,7 @@ local name = killer:GetName()
 
 
 
-local number = math.random(1, 10)
+local number = math.random(1, 20)
 if not inDungeon then
 	local x = killed:GetX()
 	local y = killed:GetY()
@@ -34,16 +35,16 @@ if not inDungeon then
 	if number == 7 then
 	spawnedCreature = killed:SpawnCreature( creatureentry, x+1, y+1, z+0.5, o-3.5, 7 )
 	spawnedCreature:SetLevel( spawnlevel )
-	spawnedCreature = killed:SpawnCreature( creatureentry, x+1, y+1, z+0.5, o-3.5, 7 )
+	spawnedCreature = killed:SpawnCreature( creatureentry, x+2, y+2, z+0.5, o-3.5, 7 )
 	spawnedCreature:SetLevel( spawnlevel )
 
 	end
 	if number == 9 then
 	spawnedCreature = killed:SpawnCreature( creatureentry, x+1, y+1, z+0.5, o-3.5, 7 )
 	spawnedCreature:SetLevel( spawnlevel )
-	spawnedCreature = killed:SpawnCreature( creatureentry, x+1, y+1, z+0.5, o-3.5, 7 )
+	spawnedCreature = killed:SpawnCreature( creatureentry, x+2, y+2, z+0.5, o-3.5, 7 )
 	spawnedCreature:SetLevel( spawnlevel )
-	spawnedCreature = killed:SpawnCreature( creatureentry, x+1, y+1, z+0.5, o-3.5, 7 )
+	spawnedCreature = killed:SpawnCreature( creatureentry, x+3, y+3, z+0.5, o-3.5, 7 )
 	spawnedCreature:SetLevel( spawnlevel )
 	end
 	
@@ -103,6 +104,11 @@ if number == 3 then
 	
 end
 
+if number == 12 then
+killer:ModifyMoney( -gold*10 )
+killer:SendBroadcastMessage("|cff5af304You lost 10 gold.|r")
+end
+
 
 
 end
@@ -128,5 +134,6 @@ end
 
 
 
-
+if enabled then
 RegisterPlayerEvent(7, OnCreatureKill)
+end
