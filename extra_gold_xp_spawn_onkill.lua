@@ -65,6 +65,11 @@ killer:ModifyMoney( gold*3 )
 killer:SendBroadcastMessage("|cff5af304You recieved an extra 3 gold from killing " ..creaturename.."|r")
 end
 
+if number == 16 then
+killer:ModifyMoney( gold*10 )
+killer:SendBroadcastMessage("|cff5af304You recieved an extra 3 gold from killing " ..creaturename.."|r")
+end
+
 if number == 3 then
 	if plevel <= 19 then
 	bonus1 = xp1*plevel
