@@ -74,11 +74,11 @@ player:SendBroadcastMessage("|cff5af304You recieved an extra 3 gold from killing
 end
 
 if number == 3 then
-	 --if victim ~= nil then
-	bonus = amount*10
-	player:GiveXP( bonus1 )
+	 if amount ~= nil then
+	local bonus = amount*10
+	player:GiveXP( bonus )
 	player:SendBroadcastMessage("|cff5af304You recieved an extra " ..bonus..  "xp from killing " ..creaturename.."|r")
-	--end
+	end
 	
 end
 
