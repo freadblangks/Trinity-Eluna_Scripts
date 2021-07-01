@@ -75,7 +75,7 @@ end
 
 if number == 3 then
 	 --if victim ~= nil then
-	bonus = ammount*10
+	bonus = amount*10
 	player:GiveXP( bonus1 )
 	player:SendBroadcastMessage("|cff5af304You recieved an extra " ..bonus..  "xp from killing " ..creaturename.."|r")
 	--end
