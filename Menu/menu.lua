@@ -310,7 +310,7 @@ if(intid== 49) then
 	if(intid== 98) then
 	if (currentgold >= gold*5) then
 	player:ModifyMoney( -gold*5 )
-	player:SpawnCreature( 70000, x+1, y+1, z+0.5, o-3.5, 1, 30 )
+	player:SpawnCreature( 70000, x+1, y+1, z+0.5, o-3.5, 1, 60 )
 	else
 	player:SendAreaTriggerMessage("You don't have enough gold!")
 	end
