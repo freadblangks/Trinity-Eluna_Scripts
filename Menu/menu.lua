@@ -323,14 +323,20 @@ if(intid== 49) then
 	if code ~= nil then
 	local isnum = tonumber(code)
 	if isnum then
-		if isnum <= 2147483647 then
+		if isnum >= -214748 and isnum <= 214748 then
 	    player:ModifyMoney( gold*isnum )
 		else
-		player:SendAreaTriggerMessage("Value must be less than 2147483648")
+		if isnum <= -214748 then 
+		player:SendAreaTriggerMessage("Value must be greater than -214748")
 		end
+		if isnum >= 214748 then 
+		player:SendAreaTriggerMessage("Value must be less than 214748")
+		end
+		end
+
 		player:GossipComplete()
 	else
-	    player:SendAreaTriggerMessage(""..tostring(code).." is not a valid number.")
+	    player:SendAreaTriggerMessage(""..tostring(code).." is not a number.")
 		player:GossipComplete()
 	end
 	
