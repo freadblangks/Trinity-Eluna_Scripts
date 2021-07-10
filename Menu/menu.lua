@@ -107,7 +107,9 @@ player:GossipClearMenu()
 	end
 	player:GossipMenuAddItem(0, "Spawn vendor to sell your junk", 0, 67)
 	
-	
+	if (player:GetGMRank() >= 3) then -- 3 is GM
+	player:GossipMenuAddItem(0, "Give Gold", 0, 97, true, "You want some gold?")
+	end
 	
 	player:GossipMenuAddItem(0, "[Exit Menu]", 0, 99)
 	player:GossipSendMenu(1, player, 100)
@@ -317,8 +319,24 @@ if(intid== 49) then
 	player:GossipComplete()
 	end
 	
+	if(intid== 97) then
+	if code ~= nil then
+	local isnum = tonumber(code)
+	if isnum then
+		if isnum <= 2147483647 then
+	    player:ModifyMoney( gold*isnum )
+		else
+		player:SendAreaTriggerMessage("Value must be less than 2147483648")
+		end
+		player:GossipComplete()
+	else
+	    player:SendAreaTriggerMessage(""..tostring(code).." is not a valid number.")
+		player:GossipComplete()
+	end
 	
 	
+	end
+	end
 	
 	
 	
