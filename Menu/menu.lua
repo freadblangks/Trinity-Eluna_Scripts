@@ -68,6 +68,9 @@ local function getPlayerCharacterGUID(player)
     return nil
   end
 
+
+  
+
 local function Hello(event, player)
 local query = WorldDBQuery(string.format("SELECT * FROM world.heirloom_list WHERE CharID=%i", getPlayerCharacterGUID(player)))
 player:GossipClearMenu()
@@ -75,8 +78,7 @@ player:GossipClearMenu()
 		
 	
 	player:GossipMenuAddItem(0, "Repair All", 0, 11)
-	player:GossipMenuAddItem(0, "[Random Morph - 10 Gold]", 0, 12)
-	player:GossipMenuAddItem(0, "[Remove Morph]", 0, 13)
+	player:GossipMenuAddItem(0, "Morph", 0, 1)
 	if not player:HasSpell(31700) then
 	if not (GMonlyfly and player:GetGMRank() < mingmrank) then
 	player:GossipMenuAddItem(0, "[Flying Mount]", 0, 14)
@@ -112,6 +114,7 @@ player:GossipClearMenu()
 	end
 	
 	player:GossipMenuAddItem(0, "[Exit Menu]", 0, 99)
+	
 	player:GossipSendMenu(1, player, 100)
 
 
@@ -131,6 +134,15 @@ player:GossipClearMenu()
 		local class = player:GetClass()
 		local gold = 10000
 		
+		
+	if(intid == 1) then	
+	player:GossipMenuAddItem(0, "[Morph by Name- 10 Gold]", 0, 2, true, "Enter the name of the NPC")
+	player:GossipMenuAddItem(0, "[Morph by ID#- 10 Gold]", 0, 3, true, "Enter the ID of the NPC")
+	player:GossipMenuAddItem(0, "[Random Morph - 10 Gold]", 0, 4)
+	player:GossipMenuAddItem(0, "[Remove Morph]", 0, 13)
+	player:GossipSendMenu(1, player, 100)
+	end
+		
 	if(intid == 11) then
 	player:DurabilityRepairAll(false,100)
 	player:SendBroadcastMessage("|cff00cc00 All of your items have been repaired!|r")
@@ -138,22 +150,109 @@ player:GossipClearMenu()
 		return false
 	end
 	
-	if(intid == 12) then
-	local rand = math.random(20000,30000)
+	if(intid == 4) then
+	local curentmodel = player:GetDisplayId()
+	local defaultdisplayId = player:GetNativeDisplayId()
+	local randmodel = WorldDBQuery(string.format("SELECT modelid1 FROM creature_template ORDER BY RAND() LIMIT 1"))
+	
+	if randmodel ~= nil then 
+      local row = randmodel:GetRow()
+
+     randmodelnumber = tonumber(row["modelid1"])
+    end
+
+	--local rand = math.random(20000,30000)
 		if (currentgold >= gold*10) then
+			if player:GetDisplayId() ~= randmodelnumber then
+            player:SetDisplayId(randmodelnumber)
 			player:ModifyMoney( -gold*10 )
-             player:SetDisplayId(rand)
 			else
-			player:SendAreaTriggerMessage("You don't have enough gold!")
+			player:SetDisplayId(randmodelnumber)
+			player:ModifyMoney( -gold*10 )
 			end
-			Hello(event, player)
-		return false
+			
+		player:GossipComplete()
+
 	end
+	end
+	
+	
+	if(intid == 2) then
+	if code ~= nil then
+	local name = code:gsub("'", "''")
+
+	local modelname = WorldDBQuery(string.format("SELECT modelid1 FROM creature_template WHERE name='%s'", tostring(name)))
+	local modelnamenum = nil
+	
+    if modelname ~= nil then 
+      local row = modelname:GetRow()
+
+     modelnamenum = tonumber(row["modelid1"])
+    end
+	
+	
+	if modelnamenum ~= nil then
+	if (currentgold >= gold*10) then
+	if player:GetDisplayId() ~= modelnamenum then
+	player:SetDisplayId(modelnamenum)
+	player:ModifyMoney( -gold*10 )
+	else
+	player:SendAreaTriggerMessage("You are already using the "..code.." model")
+	end
+	else
+	player:SendAreaTriggerMessage("You don't have enough gold!")
+	end
+	else
+	player:SendAreaTriggerMessage("Invalid NPC name")
+	end
+	end
+	player:GossipComplete()
+	end
+	
+	if(intid == 3) then
+	local getmodelid = WorldDBQuery(string.format("SELECT modelid1 FROM creature_template WHERE entry='%s'", tonumber(code)))
+	local getmodelname = WorldDBQuery(string.format("SELECT name FROM creature_template WHERE entry='%s'", tonumber(code)))
+	local themodelid = nil
+	local themodelname = nil
+	
+	if code ~= nil then
+	if getmodelid ~= nil then 
+      local rowid = getmodelid:GetRow()
+     themodelid = tonumber(rowid["modelid1"])
+    end
+	
+	if getmodelname ~= nil then 
+      local rowname = getmodelname:GetRow()
+
+	 themodelname = tostring(rowname["name"])
+    end
+	
+	if themodelid  ~= nil then
+	if (currentgold >= gold*10) then
+	if player:GetDisplayId() ~= themodelid then
+	player:SetDisplayId(themodelid)
+	player:ModifyMoney( -gold*10 )
+	else
+	player:SendAreaTriggerMessage("You are already using the "..themodelname.." model")
+
+	end
+	else
+	player:SendAreaTriggerMessage("You don't have enough gold!")
+	end
+	else
+	player:SendAreaTriggerMessage("Invalid NPC ID #")
+	end
+	end
+	player:GossipComplete()
+	end
+	
+	
 	
 	if(intid == 13) then
 	local defaultdisplayId = player:GetNativeDisplayId()
              player:SetDisplayId(defaultdisplayId)
 			 Hello(event, player)
+			 player:GossipComplete()
 		return false
 	end
 
@@ -343,7 +442,6 @@ if(intid== 49) then
 	
 	end
 	end
-	
 	
 	
 
