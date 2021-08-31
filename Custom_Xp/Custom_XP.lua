@@ -49,7 +49,7 @@ if (GMonly and player:GetGMRank() < mingmrank) then
 	WorldDBExecute(string.format("DELETE FROM custom_xp WHERE CharID = %i", PUID))
 	WorldDBExecute(string.format("INSERT INTO custom_xp VALUES (%i, %i)", PUID, 1))
 	else
-    player:SendBroadcastMessage("|cff3399FF You can change your XP by typing |cff00cc00 .xp 0.1-0.9 or .xp 1-10 |cff3399FF in chat.")
+    player:SendBroadcastMessage("|cff3399FF You can change your XP by typing |cff00cc00 .xp 0.1-0.9 |cff3399FF or |cff00cc00 .xp 1-10 |cff3399FF in chat.")
 	player:SendBroadcastMessage("|cff3399FF You can check your curent XP rate by typing |cff00cc00 .xp ? |cff3399FF in chat.")
 	end
 end
