@@ -2,6 +2,10 @@ local npcid = 100031
 local cost = 10
 
 
+local XPSQL = [[ CREATE TABLE IF NOT EXISTS Custom_XP ( CharID int(10) unsigned NOT NULL, Rate float unsigned NOT NULL DEFAULT 1) ENGINE=InnoDB DEFAULT CHARSET=utf8;]]
+WorldDBExecute(XPSQL)
+
+
 local function getPlayerCharacterGUID(player)
     query = CharDBQuery(string.format("SELECT guid FROM characters WHERE name='%s'", player:GetName()))
 
