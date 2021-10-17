@@ -5,6 +5,9 @@ local cost = 10
 local XPSQL = [[ CREATE TABLE IF NOT EXISTS Custom_XP ( CharID int(10) unsigned NOT NULL, Rate float unsigned NOT NULL DEFAULT 1) ENGINE=InnoDB DEFAULT CHARSET=utf8;]]
 WorldDBExecute(XPSQL)
 
+local XPSQL2 = [[ INSERT IGNORE world.creature_template (entry,difficulty_entry_1,difficulty_entry_2,difficulty_entry_3,KillCredit1,KillCredit2,modelid1,modelid2,modelid3,modelid4,name,subname,IconName,gossip_menu_id,minlevel,maxlevel,`exp`,faction,npcflag,speed_walk,speed_run,`scale`,`rank`,dmgschool,BaseAttackTime,RangeAttackTime,BaseVariance,RangeVariance,unit_class,unit_flags,unit_flags2,dynamicflags,family,`type`,type_flags,lootid,pickpocketloot,skinloot,PetSpellDataId,VehicleId,mingold,maxgold,AIName,MovementType,HoverHeight,HealthModifier,ManaModifier,ArmorModifier,DamageModifier,ExperienceModifier,RacialLeader,movementId,RegenHealth,mechanic_immune_mask,spell_school_immune_mask,flags_extra,ScriptName,VerifiedBuild) VALUES (100031,0,0,0,0,0,18952,0,0,0,'Skuly','XP Rates',NULL,0,80,80,2,35,129,1.0,1.14286,1.0,0,0,2000,0,1.0,1.0,1,0,0,0,0,7,138936390,0,0,0,0,0,0,0,'',0,1.0,1.0,1.0,1.0,1.0,1.0,0,0,1,0,0,66,'',0);]]
+WorldDBExecute(XPSQL2)
+
 
 local function getPlayerCharacterGUID(player)
     query = CharDBQuery(string.format("SELECT guid FROM characters WHERE name='%s'", player:GetName()))
