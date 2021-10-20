@@ -4,19 +4,32 @@ local command = "gmmenu"
 
 
 local function Hello(event, player)
-
+level = player:GetLevel()
 player:GossipClearMenu()
 
 	player:GossipMenuAddItem(0, "Give Gold", 0, 1, true, "You want some gold?")
 	player:GossipMenuAddItem(0, "Spawn NPC (20 Seconds) (Zombie = 1501)", 0, 2, true, "What is the NPC ID?")
+	player:GossipMenuAddItem(0, "Add Item", 0, 22, true, "What is the Item ID?")
 	player:GossipMenuAddItem(0, "Set Level", 0, 3, true, "What level?")
+	if level < 80 then
 	player:GossipMenuAddItem(0, "Give XP", 0, 4, true, "How Much XP?")
+	end
+	player:GossipMenuAddItem(0, "Add Quest by ID", 0, 23, true, "Quest ID?")
 	player:GossipMenuAddItem(0, "Complete Quest by ID", 0, 90, true, "Quest ID?")
 	player:GossipMenuAddItem(0, "Summon your Class Trainer", 0, 5)
+	player:GossipMenuAddItem(0, "Learn Spell", 0, 26, true, "What is the Spell ID?")
+	player:GossipMenuAddItem(0, "Summon Taxi", 0, 20)
+	player:GossipMenuAddItem(0, "Max All Skills", 0, 24)
+	if player:HasAura( 15007 ) then
+	player:GossipMenuAddItem(0, "Remove Resurrection Sickness", 0, 25)
+	end
 	player:GossipMenuAddItem(0, "Teleport to Starting Areas", 0, 6)
 	player:GossipMenuAddItem(0, "Set Hearthstone", 0, 91)
 	player:GossipMenuAddItem(0, "Set movement speed", 0, 92, true, "How fast?")
+	if player:HasSpellCooldown( 8690 ) then
 	player:GossipMenuAddItem(0, "Reset Hearthstone Cooldown", 0, 93)
+	end
+	player:GossipMenuAddItem(0, "Reset ALL Cooldowns", 0, 21)
 	
 	player:GossipMenuAddItem(0, "[Exit Menu]", 0, 99)
 	
@@ -198,6 +211,41 @@ player:GossipClearMenu()
 	if(intid == 15) then
 		Hello(event, player)
 		return false
+	end
+	
+	if(intid == 20) then
+		player:SpawnCreature( 37888, x+1, y+1, z+0.5, o-3.5, 1, 20 )
+		player:GossipComplete()
+	end
+	
+	if(intid == 21) then
+		player:ResetAllCooldowns()
+		player:GossipComplete()
+	end
+	
+	if(intid == 22) then
+		player:AddItem( code, 1 )
+		player:GossipComplete()
+	end
+	
+	if(intid == 23) then
+		player:AddQuest( code )
+		player:GossipComplete()
+	end
+	
+	if(intid == 24) then
+		player:AdvanceSkillsToMax()
+		player:GossipComplete()
+	end
+	
+	if(intid == 25) then
+		player:RemoveAura( 15007 )
+		player:GossipComplete()
+	end
+	
+	if(intid == 26) then
+		Player:LearnSpell( code )
+		player:GossipComplete()
 	end
 	
 	if(intid == 90) then
